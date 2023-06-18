@@ -11,44 +11,51 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
     <title>Tic Tac Toe</title>
   </head>
 
   <body>
     <div>
-        <button id="reset-btn">Reset</button>
+      <button id="reset-btn">Reset</button>
     </div>
     <div class="game-container">
       <div class="row">
-        <div data-cell-index="0" class="cell">-</div>
-        <div data-cell-index="1" class="cell">-</div>
-        <div data-cell-index="2" class="cell">-</div>
+        <div data-cell-index="0" class="cell animated fadeInUp animatedFadeInUp" id="0"></div>
+        <div data-cell-index="1" class="cell animated fadeInUp animatedFadeInUp" id="1"></div>
+        <div data-cell-index="2" class="cell animated fadeInUp animatedFadeInUp" id="2"></div>
       </div>
       <div class="row">
-        <div data-cell-index="3" class="cell">-</div>
-        <div data-cell-index="4" class="cell">-</div>
-        <div data-cell-index="5" class="cell">-</div>
+        <div data-cell-index="3" class="cell animated fadeInUp animatedFadeInUp" id="3"></div>
+        <div data-cell-index="4" class="cell animated fadeInUp animatedFadeInUp" id="4"></div>
+        <div data-cell-index="5" class="cell animated fadeInUp animatedFadeInUp" id="5"></div>
       </div>
       <div class="row">
-        <div data-cell-index="6" class="cell">-</div>
-        <div data-cell-index="7" class="cell">-</div>
-        <div data-cell-index="8" class="cell">-</div>
+        <div data-cell-index="6" class="cell animated fadeInUp animatedFadeInUp" id="6"></div>
+        <div data-cell-index="7" class="cell animated fadeInUp animatedFadeInUp" id="7"></div>
+        <div data-cell-index="8" class="cell animated fadeInUp animatedFadeInUp" id="8"></div>
       </div>
     </div>
     <div class="message-container">
       <h5 class="declare-player">Player 1 Goes</h5>
     </div>
 
-    <div>
-      <h3>Win Count</h3>
+    <div class="stats">
+      <h3 id="win-count">Win Count</h3>
       <div>
-          <span class="player-1-name">Player 1: </span><span class="player-1-score">0</span>
+        <span class="player-1-name">Player 1 </span
+        ><span class="player-1-score">0</span>
       </div>
       <div>
-        <span class="player-2-name">Player 2: </span><span class="player-2-score">0</span>
-    </div>
-
-    <div class="winner"></div>
+        <span class="player-2-name">Player 2 </span
+        ><span class="player-2-score">0</span>
+        <div class="winner"></div>
+      </div>
     </div>
   </body>
   <script src="script.js"></script>

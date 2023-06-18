@@ -1,33 +1,115 @@
+*{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+}
 body{
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     min-height: 100vh;
+    background-color: #264653;
   }
   #reset-btn{
     position: absolute;
-    margin-top: 125px;
-    margin-left:50px;
-  
+    margin-top: 250px;
+    margin-left: 195px;
+    padding: 10px 20px;
+  }
+  #reset-btn{
+    background-color: #e76f51;
+    color: #e9c46a;
+    border: none;
+
+  }
+  #reset-btn:hover{
+    background-color: #e9c46a;
+    color: #e76f51;
+  }
+  #reset-btn:active{
+    transform: scale(.96) ;
   }
   .stats{
     position: absolute;
-    margin-bottom: 300px;
+    margin-bottom:650px;
   }
   .row {
       margin: 0;
       display: flex;
   }
   .message-container{
-    margin-top:200px;
     position:absolute;
+    margin-bottom: 500px;
   }
   .cell {
-      width: 50px;
-      height: 50px;
+      width: 150px;
+      height: 150px;
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 1px solid;
+      border: 5px solid;
+      border-color: #2a9d8f;
+  }
+  .cell:hover{
+    border-color:white;
+  }
+  .cell:active{
+    border: 3px solid;
+    opacity:.5;
+  }
+  .player-1-name , .player-1-score, .player-2-name, .player-2-score , .declare-player , .winner{
+    font-weight: 500;
+    font-size:20px;
+    color: #e9c46a;
+  }
+  #win-count{
+    color:#f4a261;
+  }
+  .declare-player{
+    margin-top:30px;
+  }
+  .cell{
+    font-size:70px;
+    color:white;
+  }
+  .red{
+    color: red;
+  }
+
+
+  @keyframes fadeInUp {
+    from {
+        transform: translate3d(0,40px,0)
+    }
+  
+    to {
+        transform: translate3d(0,0,0);
+        opacity: 1
+    }
+  }
+  
+  @-webkit-keyframes fadeInUp {
+    from {
+        transform: translate3d(0,40px,0)
+    }
+  
+    to {
+        transform: translate3d(0,0,0);
+        opacity: 1
+    }
+  }
+  
+  .animated {
+    animation-fill-mode: both;
+    animation-duration: 2s;
+  }
+  
+  .animatedFadeInUp {
+    opacity: 0
+  }
+  
+  .fadeInUp {
+    opacity: 0;
+    animation-name: fadeInUp;
+    -webkit-animation-name: fadeInUp;
   }

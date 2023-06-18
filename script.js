@@ -1,15 +1,12 @@
-// define global variables
 let currentTurn = 1;
 let winner = "";
-const handleDisplay = () => {
-  const player1Name = prompt("Enter Player 1 Name: ");
-  const player2Name = prompt("Enter Player 2 Name: ");
-  
-  document.querySelector(".player-1-name").textContent = player1Name + ": ";
-  document.querySelector(".player-2-name").textContent = player2Name + ": ";
-  document.querySelector(".declare-player").textContent = player1Name + " Goes";
-}
+let symbol = "";
+const player1Name = prompt("Enter Player 1 Name: ");
+const player2Name = prompt("Enter Player 2 Name: ");
 
+document.querySelector(".player-1-name").textContent = player1Name + ": ";
+document.querySelector(".player-2-name").textContent = player2Name + ": ";
+document.querySelector(".declare-player").textContent = player1Name + " Goes";
 
 const playerArray = [
   {
@@ -22,72 +19,256 @@ const playerArray = [
   },
 ];
 
-const handleCellClick = (index) => {
-  setUpCells(index);
-  checkForWinner();
-  displayWinner(playerArray[0].winCount, playerArray[1].winCount);
-};
+const allCellsElements = document.querySelectorAll(".cell");
 
-//add event listener to cells
-const assignElementEventListeners = () => {
-  document.querySelector("#reset-btn").addEventListener("click", handleReset);
-  const arrCells = document.querySelectorAll(".cell");
-  for (let i = 0; i < arrCells.length; i++) {
-    arrCells[i].addEventListener("click", () => handleCellClick(i));
-  }
-}
+const gameData = [...allCellsElements].map((element) => {
+  return element.textContent;
+});
 
-const setUpCells = (index) => {
+const firstArray = gameData.splice(0, 3);
+const secondArray = gameData.splice(0, 3);
+const thirdArray = gameData.splice(0, 3);
+
+const gameMatrix = [firstArray, secondArray, thirdArray];
+
+allCellsElements.forEach((element) => {
+    if (currentTurn === 1) {
+      symbol = "X";
+    } else if (currentTurn === 2) {
+      symbol = "O";
+    }
+  element.addEventListener("click", (element) => handleCellClick(element, symbol));
+});
+
+const handleCellClick = (element, symbol) => {
+  const targetElementDataCellId = element.target.getAttribute("data-cell-index");
   if (
-    arrCells[index].textContent === "O" ||
-    arrCells[index].textContent === "X"
+    document.querySelector(`[data-cell-index="${targetElementDataCellId}"]`).textContent === "O" ||
+    document.querySelector(`[data-cell-index="${targetElementDataCellId}"]`).textContent === "X"
   ) {
     return;
   }
-  //determine playter turn
+
   if (currentTurn === 1) {
-    arrCells[index].textContent = "X";
-  } else {
-    arrCells[index].textContent = "O";
+    symbol = "X";
+  } else if (currentTurn === 2) {
+    symbol = "O";
   }
-  //toggle - switch player
+
+  switch (targetElementDataCellId) {
+    case "0":gameMatrix[0][0] = symbol; break;
+    case "1":gameMatrix[0][1] = symbol; break;
+    case "2":gameMatrix[0][2] = symbol; break;
+    case "3":gameMatrix[1][0] = symbol; break;
+    case "4":gameMatrix[1][1] = symbol; break;
+    case "5":gameMatrix[1][2] = symbol; break;
+    case "6":gameMatrix[2][0] = symbol; break;
+    case "7":gameMatrix[2][1] = symbol; break;
+    case "8":gameMatrix[2][2] = symbol; break;
+    default: break;
+  }
+
+  let count = 0;
+  for (let i = 0; i < gameMatrix.length; i++) {
+     for (let k = 0; k < gameMatrix[i].length; k++) {
+       document.querySelector(`[data-cell-index="${count}"]`).textContent = gameMatrix[i][k]
+       count++;
+      }
+  }
+
   if (currentTurn === 1) {
     currentTurn = 2;
-    //show upddate the text on the page
     document.querySelector(
       ".declare-player"
     ).textContent = `${playerArray[1].name} Goes`;
-  } else {
+  } else if (currentTurn === 2) {
     currentTurn = 1;
-    //show upddate the text on the page
     document.querySelector(
       ".declare-player"
     ).textContent = `${playerArray[0].name} Goes`;
   }
-};
 
+  if (gameMatrix[0][0] !== "" && gameMatrix[0][1] !== "" && gameMatrix[0][2] !== "") {
+    if (gameMatrix[0][0] === symbol && gameMatrix[0][1] === symbol && gameMatrix[0][2] === symbol) {
+      var temp = document.getElementById(0);
+      temp.classList.add("red");
+      var temp1 = document.getElementById(1);
+      temp1.classList.add("red");
+      var temp2 = document.getElementById(2);
+      temp2.classList.add("red");
+      if(symbol === "X"){
+        winner = playerArray[0].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[0].winCount++;
+      }else{
+        winner = playerArray[1].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[1].winCount++;
+      }
+    }
+  }
+  if (gameMatrix[1][0] !== "" && gameMatrix[1][1] !== "" && gameMatrix[1][2] !== "") {
+    if (gameMatrix[1][0] === symbol && gameMatrix[1][1] === symbol && gameMatrix[1][2] === symbol) {
+      var temp = document.getElementById(3);
+      temp.classList.add("red");
+      var temp1 = document.getElementById(4);
+      temp1.classList.add("red");
+      var temp2 = document.getElementById(5);
+      temp2.classList.add("red");
+      if(symbol === "X"){
+        winner = playerArray[0].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[0].winCount++;
+      }else{
+        winner = playerArray[1].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[1].winCount++;
+      }
+    }
+  }
+  if (gameMatrix[2][0] !== "" && gameMatrix[2][1] !== "" && gameMatrix[2][2] !== "") {
+    if (gameMatrix[2][0] === symbol && gameMatrix[2][1] === symbol && gameMatrix[2][2] === symbol) {
+      var temp = document.getElementById(6);
+      temp.classList.add("red");
+      var temp1 = document.getElementById(7);
+      temp1.classList.add("red");
+      var temp2 = document.getElementById(8);
+      temp2.classList.add("red");
+      if(symbol === "X"){
+        winner = playerArray[0].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[0].winCount++;
+      }else{
+        winner = playerArray[1].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[1].winCount++;
+      }
+    }
+  }
+  if (gameMatrix[0][0] !== "" && gameMatrix[1][0] !== "" && gameMatrix[2][0] !== "") {
+    if (gameMatrix[0][0] === symbol && gameMatrix[1][0] === symbol && gameMatrix[2][0] === symbol) {
+      var temp = document.getElementById(0);
+      temp.classList.add("red");
+      var temp1 = document.getElementById(3);
+      temp1.classList.add("red");
+      var temp2 = document.getElementById(6);
+      temp2.classList.add("red");
+      if(symbol === "X"){
+        winner = playerArray[0].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[0].winCount++;
+      }else{
+        winner = playerArray[1].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[1].winCount++;
+      }
+    }
+  }
+  if (gameMatrix[0][1] !== "" && gameMatrix[1][1] !== "" && gameMatrix[2][1] !== "") {
+    if (gameMatrix[0][1] === symbol && gameMatrix[1][1] === symbol && gameMatrix[2][1] === symbol) {
+      var temp = document.getElementById(1);
+      temp.classList.add("red");
+      var temp1 = document.getElementById(4);
+      temp1.classList.add("red");
+      var temp2 = document.getElementById(7);
+      temp2.classList.add("red");
+      if(symbol === "X"){
+        winner = playerArray[0].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[0].winCount++;
+      }else{
+        winner = playerArray[1].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[1].winCount++;
+      }
+  }
+}
+  if (gameMatrix[0][2] !== "" && gameMatrix[1][2] !== "" && gameMatrix[2][2] !== "") {
+    if (gameMatrix[0][2] === symbol && gameMatrix[1][2] === symbol && gameMatrix[2][2] === symbol) {
+      var temp = document.getElementById(2);
+      temp.classList.add("red");
+      var temp1 = document.getElementById(5);
+      temp1.classList.add("red");
+      var temp2 = document.getElementById(8);
+      temp2.classList.add("red");
+      if(symbol === "X"){
+        winner = playerArray[0].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[0].winCount++;
+      }else{
+        winner = playerArray[1].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[1].winCount++;
+      }
+  }
+}
+  if (gameMatrix[0][0] !== "" && gameMatrix[1][1] !== "" && gameMatrix[2][2] !== "") {
+    if (gameMatrix[0][0] === symbol && gameMatrix[1][1] === symbol && gameMatrix[2][2] === symbol) {
+      var temp = document.getElementById(0);
+      temp.classList.add("red");
+      var temp1 = document.getElementById(4);
+      temp1.classList.add("red");
+      var temp2 = document.getElementById(8);
+      temp2.classList.add("red");
+      if(symbol === "X"){
+        winner = playerArray[0].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[0].winCount++;
+      }else{
+        winner = playerArray[1].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[1].winCount++;
+      }
+    }
+  }
+  if (gameMatrix[0][2] !== "" && gameMatrix[1][1] !== "" && gameMatrix[2][0] !== "") {
+    if (gameMatrix[0][2] === symbol && gameMatrix[1][1] === symbol && gameMatrix[2][0] === symbol) {
+      var temp = document.getElementById(2);
+      temp.classList.add("red");
+      var temp1 = document.getElementById(4);
+      temp1.classList.add("red");
+      var temp2 = document.getElementById(6);
+      temp2.classList.add("red");
+      if(symbol === "X"){
+        winner = playerArray[0].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[0].winCount++;
+      }else{
+        winner = playerArray[1].name;
+        document.querySelector(".declare-player").textContent = `Winner is ${winner}!`;
+        playerArray[1].winCount++;
+      }
+  }
+  }
+  displayWinner(playerArray[0].winCount,playerArray[1].winCount)
+  document.querySelector(".player-1-score").textContent = "" + 
+    playerArray[0].winCount;
+  document.querySelector(".player-2-score").textContent = "" + 
+    playerArray[1].winCount;
+};
 const handleReset = () => {
   if (currentTurn === 1) {
-    document.querySelector(
-      ".declare-player"
-    ).textContent = `${playerArray[0].name} Goes`;
+    document.querySelector(".declare-player").textContent = `${playerArray[0].name} Goes`;
   } else {
-    document.querySelector(
-      ".declare-player"
-    ).textContent = `${playerArray[1].name} Goes`;
+    document.querySelector(".declare-player").textContent = `${playerArray[1].name} Goes`;
   }
-  document.querySelector('[data-cell-index="0"]').textContent = "-";
-  document.querySelector('[data-cell-index="1"]').textContent = "-";
-  document.querySelector('[data-cell-index="2"]').textContent = "-";
-  document.querySelector('[data-cell-index="3"]').textContent = "-";
-  document.querySelector('[data-cell-index="4"]').textContent = "-";
-  document.querySelector('[data-cell-index="5"]').textContent = "-";
-  document.querySelector('[data-cell-index="6"]').textContent = "-";
-  document.querySelector('[data-cell-index="7"]').textContent = "-";
-  document.querySelector('[data-cell-index="8"]').textContent = "-";
+
+  let count = 0;
+  for (let i = 0; i < gameMatrix.length; i++) {
+    for (let k = 0; k < gameMatrix[i].length; k++) {
+      document.querySelector(`[data-cell-index="${count}"]`).textContent = ""
+      gameMatrix[i][k] = "";
+      count++;
+     }
+ }
+for (let i = 0; i < 9; i++){
+  var temp = document.getElementById(i);
+  temp.classList.remove("red");
+}
 };
 
-//row 4
+document.querySelector("#reset-btn").addEventListener("click", handleReset);
+
 const displayWinner = (score1, score2) => {
   if (score1 === score2) {
     document.querySelector(".winner").textContent = "Game is a tie thus far";
@@ -99,156 +280,3 @@ const displayWinner = (score1, score2) => {
       player2Name + " has the highest score thus far";
   }
 };
-
-const checkForWinner = () => {
-  //check for winner
-
-  const cell0 = document.querySelector('[data-cell-index="0"]').textContent;
-  const cell1 = document.querySelector('[data-cell-index="1"]').textContent;
-  const cell2 = document.querySelector('[data-cell-index="2"]').textContent;
-  const cell3 = document.querySelector('[data-cell-index="3"]').textContent;
-  const cell4 = document.querySelector('[data-cell-index="4"]').textContent;
-  const cell5 = document.querySelector('[data-cell-index="5"]').textContent;
-  const cell6 = document.querySelector('[data-cell-index="6"]').textContent;
-  const cell7 = document.querySelector('[data-cell-index="7"]').textContent;
-  const cell8 = document.querySelector('[data-cell-index="8"]').textContent;
-
-  //row wins
-  if (cell0 !== "-" && cell1 !== "-" && cell2 !== "-") {
-    if (cell0 === "X" && cell1 === "X" && cell2 === "X") {
-      winner = playerArray[0].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[0].winCount++;
-    } else if (cell0 === "O" && cell1 === "O" && cell2 === "O") {
-      winner = playerArray[1].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[1].winCount++;
-    }
-  }
-  if (cell3 !== "-" && cell4 !== "-" && cell5 !== "-") {
-    if (cell3 === "X" && cell4 === "X" && cell5 === "X") {
-      winner = playerArray[0].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[0].winCount++;
-    } else if (cell3 === "O" && cell4 === "O" && cell5 === "O") {
-      winner = playerArray[1].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[1].winCount++;
-    }
-  }
-  if (cell6 !== "-" && cell7 !== "-" && cell8 !== "-") {
-    if (cell6 === "X" && cell7 === "X" && cell8 === "X") {
-      winner = playerArray[0].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[0].winCount++;
-    } else if (cell6 === "O" && cell7 === "O" && cell8 === "O") {
-      winner = playerArray[1].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[1].winCount++;
-    }
-  }
-  //column
-  if (cell0 !== "-" && cell3 !== "-" && cell6 !== "-") {
-    if (cell0 === "X" && cell3 === "X" && cell6 === "X") {
-      winner = playerArray[0].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[0].winCount++;
-    } else if (cell0 === "O" && cell3 === "O" && cell6 === "O") {
-      winner = playerArray[1].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[1].winCount++;
-    }
-  }
-  if (cell1 !== "-" && cell4 !== "-" && cell7 !== "-") {
-    if (cell1 === "X" && cell4 === "X" && cell7 === "X") {
-      winner = playerArray[0].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[0].winCount++;
-    } else if (cell1 === "O" && cell4 === "O" && cell7 === "O") {
-      winner = playerArray[1].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[1].winCount++;
-    }
-  }
-  if (cell2 !== "-" && cell5 !== "-" && cell8 !== "-") {
-    if (cell2 === "X" && cell5 === "X" && cell8 === "X") {
-      winner = playerArray[0].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[0].winCount++;
-    } else if (cell2 === "O" && cell5 === "O" && cell8 === "O") {
-      winner = playerArray[1].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[1].winCount++;
-    }
-  }
-  //diagnol
-  if (cell0 !== "-" && cell4 !== "-" && cell8 !== "-") {
-    if (cell0 === "X" && cell4 === "X" && cell8 === "X") {
-      winner = playerArray[0].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[0].winCount++;
-    } else if (cell0 === "O" && cell4 === "O" && cell8 === "O") {
-      winner = playerArray[1].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[1].winCount++;
-    }
-  }
-  if (cell2 !== "-" && cell4 !== "-" && cell6 !== "-") {
-    if (cell2 === "X" && cell4 === "X" && cell6 === "X") {
-      winner = playerArray[0].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[0].winCount++;
-    } else if (cell2 === "O" && cell4 === "O" && cell6 === "O") {
-      winner = playerArray[1].name;
-      document.querySelector(
-        ".declare-player"
-      ).textContent = `Winner is ${winner}!`;
-      playerArray[1].winCount++;
-    }
-  }
-
-  document.querySelector(".player-1-score").textContent = ":" + 
-    playerArray[0].winCount;
-  document.querySelector(".player-2-score").textContent = ":" + 
-    playerArray[1].winCount;
-};
-//have a tie function
-/*
-first for loop checks if the squares have been filled and result in no win
-(this is where it can have the nested if statements)
-second for loop resets the boxes
-parameter?
-
-*/
-handleDisplay();
-assignElementEventListeners();
